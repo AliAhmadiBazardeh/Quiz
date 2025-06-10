@@ -6,12 +6,20 @@ import psycopg2
 class CarRepository:
     def __init__(self):  
         
+        # self.conn = psycopg2.connect(
+        #     dbname=os.getenv("DB_NAME"),
+        #     user=os.getenv("DB_USER"),
+        #     password=os.getenv("DB_PASSWORD"),
+        #     host=os.getenv("DB_HOST"),
+        #     port=os.getenv("DB_PORT"),
+        # )
+        
         self.conn = psycopg2.connect(
-            dbname=os.getenv("DB_NAME"),
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASSWORD"),
-            host=os.getenv("DB_HOST"),
-            port=os.getenv("DB_PORT"),
+            dbname="car_db",
+            user="postgres",
+            password="76827633",
+            host="localhost",
+            port="5433"
         )
      
         self.cursor = self.conn.cursor()

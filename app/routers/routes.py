@@ -1,4 +1,6 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from app.services.manager import CarManager
 from app.models.car import Car
@@ -18,6 +20,20 @@ class carIn(BaseModel):
 
 class carOut(carIn):
     pass
+
+# تنظیم پوشه templates
+templates = Jinja2Templates(directory="app/templates")
+router.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+@router.get("/")
+async def read_index():
+    from fastapi.responses import FileResponse
+    return FileResponse("app/static/index.html")
+
+@router.get("/register")
+async def read_index():
+    from fastapi.responses import FileResponse
+    return FileResponse("app/static/register.html")
 
 @router.post("/cars", response_model=carOut)
 def create_car(car: carIn):
