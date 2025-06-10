@@ -4,9 +4,7 @@ import psycopg2
 import helper as helper
 
 class CarManager:
-    def __init__(self):
-        # self.cars = []
-        # self._cars_by_slug = {}
+    def __init__(self):     
         self.conn = psycopg2.connect(
             dbname='car_db',
             user='postgres',
@@ -16,10 +14,7 @@ class CarManager:
         )
         self.cursor = self.conn.cursor()
         
-    def add_car(self, car: Car):
-        # self.cars.append(car)
-        # self._cars_by_slug[car.slug] = car
-        # print(f"'{car.slug}' added successfully.\n")
+    def add_car(self, car: Car): 
         try:
             self.cursor.execute(
                 q.INSERT_QUERY,
@@ -56,12 +51,6 @@ class CarManager:
                 
         
     def find_car_by_slug(self, slug: str):
-        # return self._cars_by_slug.get(slug)
-        
-        # for car in self.cars:
-        #     if car.slug == slug:
-        #         return car
-        # return None
         self.cursor.execute(q.SELECT_BY_SLUG_QUERY, (slug,))
         row = self.cursor.fetchone()
         if row:

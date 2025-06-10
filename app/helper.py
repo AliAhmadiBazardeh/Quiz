@@ -8,8 +8,8 @@ def random_lower_alphanumeric():
     return ''.join(random.choices(chars, k=5))
 
 def simple_slugify(text):
-    text = text.lower()                          # کوچک کردن
-    text = re.sub(r'[^\w\s-]', '', text)         # حذف کاراکترهای خاص
-    text = re.sub(r'[\s_-]+', '-', text)         # تبدیل فاصله و _ به -
-    text = re.sub(r'^-+|-+$', '', text)          # حذف خط تیره از ابتدا و انتها
+    text = text.lower()                         
+    text = re.sub(r'[^\w\s-]', '', text)         
+    text = re.sub(r'[\s_-]+', '-', text)         
+    text = re.sub(r'^-+|-+$', '', text)
     return text

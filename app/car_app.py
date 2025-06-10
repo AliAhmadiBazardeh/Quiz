@@ -1,6 +1,5 @@
 from car_manager import CarManager
 from car import Car
-from helper import simple_slugify
 
 class CarApp:   
     def __init__(self):
@@ -27,11 +26,6 @@ class CarApp:
             creation_code = input("Creation code: ")
             
             slug = self.manager.generate_unique_slug(car_name, car_model, car_color)
-
-            # slug = simple_slugify(car_name+" "+car_model+" "+car_color)
-            # if self.manager.find_car_by_slug(slug):
-            #     print("Car already exists!\n")
-            #     return
         
 
             car = Car(slug, car_name, car_model, car_color, from_date, to_date, creation_code)
