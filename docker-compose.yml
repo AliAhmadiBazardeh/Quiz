@@ -1,32 +1,29 @@
-version: '3.13'
+version: '3.8'
 
 services:
   db:
     image: postgres:17
-    container_name: car_postgres
     restart: always
+    env_file:
+      - .env
     environment:
-      POSTGRES_DB: car_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./db/db.sql:/docker-entrypoint-initdb.d/db.sql
     ports:
       - "5432:5432"
 
-  app:
+  api:
     build: .
-    stdin_open: true  # فعال کردن stdin
-    tty: true         # اختصاص یک ترمینال مجازی
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
     depends_on:
       - db
-    environment:
-      DB_NAME: car_db
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_HOST: db
-      DB_PORT: 5432
 
 volumes:
   db-data:

@@ -1,5 +1,6 @@
-from app.car_app import CarApp
-    
+from fastapi import FastAPI
+from app.routers.routes import router
 
-if __name__ == "__main__":
-    CarApp()
+app = FastAPI(title="Car API")
+
+app.include_router(router)
