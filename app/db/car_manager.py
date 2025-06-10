@@ -1,7 +1,7 @@
-from car import Car
-import queries as q
+from app.models.car import Car
+import app.db.queries as q
 import psycopg2
-import helper as helper
+import app.utilities.helper as helper
 import os
 
 class CarManager:

@@ -1,5 +1,5 @@
-from car_manager import CarManager
-from car import Car
+from app.db.car_manager import CarManager
+from app.models.car import Car
 
 class CarApp:   
     def __init__(self):
