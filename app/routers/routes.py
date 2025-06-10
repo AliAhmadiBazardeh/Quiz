@@ -22,8 +22,7 @@ class carOut(carIn):
     pass
 
 # تنظیم پوشه templates
-templates = Jinja2Templates(directory="app/templates")
-router.mount("/static", StaticFiles(directory="app/static"), name="static")
+# templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/")
 async def read_index():
