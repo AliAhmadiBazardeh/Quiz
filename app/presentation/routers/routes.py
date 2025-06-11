@@ -23,7 +23,7 @@ async def read_register():
 def create_car(car: carIn):
     slug = manager.generate_unique_slug(car.car_name, car.car_model, car.car_color)
     car.slug = slug
-    new_car = Car(**car.dict())
+    new_car = Car(**car.model_dump())
     manager.add_car(new_car)
     return car
 
