@@ -3,12 +3,13 @@ from fastapi import Request
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from app.car.domain.exceptions.exception import CarNotFoundError
 
 logger = logging.getLogger("app_error_logger")
 logging.basicConfig(level=logging.INFO)
 
-async def global_exception_handler(request: Request, exc: Exception):
 
+async def global_exception_handler(request: Request, exc: Exception):
     logger.error(f"Unhandled error at {request.url.path}: {exc}", exc_info=True)
 
     if isinstance(exc, StarletteHTTPException):
@@ -22,7 +23,13 @@ async def global_exception_handler(request: Request, exc: Exception):
             status_code=422,
             content={"detail": exc.errors()}
         )
- 
+
+    if isinstance(exc, CarNotFoundError):
+        return JSONResponse(
+            status_code=404,
+            content={"detail": exc.message}
+        )
+
     return JSONResponse(
         status_code=500,
         content={"detail": "Internal Server Error."}

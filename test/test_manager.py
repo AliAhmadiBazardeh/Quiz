@@ -12,14 +12,15 @@ def mock_manager():
 
 
 def test_generate_unique_slug_returns_unique_slug(mock_manager):
-    mock_manager.find_car_by_slug = MagicMock(return_value=None)  # هیچ ماشینی با این slug پیدا نشه
+    mock_manager.exist_car_by_slug = MagicMock(return_value=False)
 
     slug = mock_manager.generate_unique_slug("Toyota", 2022, "Red")
 
     assert isinstance(slug, str)
-    assert "toyota" in slug
-    assert "red" in slug
+    assert "toyota" in slug.lower()
+    assert "red" in slug.lower()
     assert len(slug) > 0
+
     
     
     

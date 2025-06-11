@@ -4,7 +4,7 @@ from app.car.schema import carIn, carOut
 from app.car.application.manager import CarManager
 from app.car.domain.car import Car
 from app.car.infrastructure.db_connection import get_db_connection
-from app.car.domain.exceptions.exception import CarNotFoundError
+from app.car.domain.exceptions.exception import CarNotFoundError,ErrorMessages
 from app.car.infrastructure.repository import CarRepository
 
 router = APIRouter()
@@ -33,15 +33,18 @@ def list_cars():
 
 @router.get("/cars/{slug}", response_model=carOut)
 def get_car(slug: str):
-    car = manager.find_car_by_slug(slug)
-    if not car:
-        raise HTTPException(status_code=404, detail=str(CarNotFoundError(slug)))
-    return carOut.model_validate(car)
+    try:
+        car = manager.find_car_by_slug(slug)
+        return carOut.model_validate(car)
+    except CarNotFoundError:
+        detail = ErrorMessages.CAR_NOT_FOUND.format(slug=slug)
+        raise HTTPException(status_code=404, detail=detail)
 
 @router.delete("/cars/{slug}")
 def delete_car(slug: str):
-    car = manager.find_car_by_slug(slug)
-    if not car:
-        raise HTTPException(status_code=404, detail=str(CarNotFoundError(slug)))
-    manager.delete_car_by_slug(slug)
-    return {"detail": "Car deleted successfully."}
+    try:
+        manager.delete_car_by_slug(slug)
+        return {"detail": f"{slug} deleted successfully."}
+    except CarNotFoundError:
+        detail = ErrorMessages.CAR_NOT_FOUND.format(slug=slug)    
+        raise HTTPException(status_code=404, detail=detail)

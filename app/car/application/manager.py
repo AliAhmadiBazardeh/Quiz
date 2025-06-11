@@ -16,18 +16,23 @@ class CarManager:
         return self.repo.get_all()
                                         
     def find_car_by_slug(self, slug: str):
-        return self.repo.get_by_slug(slug)
-
-    def delete_car_by_slug(self, slug: str):
-        car = self.find_car_by_slug(slug)
+        car = self.repo.get_by_slug(slug)
         if not car:
             raise CarNotFoundError(slug)
+        return car
+    
+    def exist_car_by_slug(self, slug: str):
+        car = self.repo.get_by_slug(slug)     
+        return False if not car else True
+    
+    def delete_car_by_slug(self, slug: str):
+        self.find_car_by_slug(slug)
         self.repo.delete_by_slug(slug)    
     
-    def generate_unique_slug(self, car_name, car_model, car_color, max_attempts=10):
+    def generate_unique_slug(self, car_name, car_model, car_color, max_attempts=25):
         for _ in range(max_attempts):
             slug = self.slug_generator(car_name, car_model, car_color)
-            if not self.find_car_by_slug(slug):
+            if not self.exist_car_by_slug(slug):
                 return slug
         raise Exception("Failed to generate unique slug after multiple attempts.")
 

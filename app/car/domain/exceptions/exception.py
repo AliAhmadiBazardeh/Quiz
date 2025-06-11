@@ -1,5 +1,8 @@
 class CarNotFoundError(Exception):
-    """Raised when a car with the specified slug is not found."""
     def __init__(self, slug: str):
-        super().__init__(f"Car with slug '{slug}' not found.")
+        self.message = f"Car with slug '{slug}' not found."
         self.slug = slug
+        super().__init__(self.message)
+        
+class ErrorMessages:
+    CAR_NOT_FOUND = "Car with slug '{slug}' not found."
