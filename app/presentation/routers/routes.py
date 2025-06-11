@@ -1,7 +1,7 @@
 # app/api/routes.py
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
-from app.api.schemas.schema import carIn, carOut
+from app.presentation.schemas.schema import carIn, carOut
 from app.services.manager import CarManager
 from app.models.car import Car
 from app.repositories.db_connection import get_db_connection

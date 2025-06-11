@@ -2,7 +2,7 @@ from app.models.car import Car
 from app.repositories.repository import CarRepository
 from typing import Callable
 import app.utilities.helper as helper
-from app.exceptions import CarNotFoundError
+from app.presentation.exceptions import CarNotFoundError
 
 class CarManager:
     def __init__(self, repository: CarRepository, slug_generator: Callable = None):         
