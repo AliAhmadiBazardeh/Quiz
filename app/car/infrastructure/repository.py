@@ -30,7 +30,11 @@ class CarRepository:
         self.cursor.execute(q.SELECT_BY_SLUG_QUERY, (slug,))
         row = self.cursor.fetchone()
         return Car(*row) if row else None
-
+    
+    def exist_by_slug(self, slug: str):
+        self.cursor.execute(q.EXIST_BY_SLUG_QUERY, (slug,))
+        return self.cursor.fetchone()
+    
     def delete_by_slug(self, slug: str):
         self.cursor.execute(q.DELETE_BY_SLUG_QUERY, (slug,))
         self.conn.commit()

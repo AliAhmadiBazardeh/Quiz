@@ -40,6 +40,9 @@ class CarUI:
                 print()
             elif choice == "3":
                 slug = input("Enter car slug to delete: ")
+                if not self.manager.exist_car_by_slug(slug):
+                    print("\nslug is incorrect!!\n")
+                    return self.run()
                 self.manager.delete_car_by_slug(slug)
                 print(f"{slug} deleted.\n")
             elif choice == "4":

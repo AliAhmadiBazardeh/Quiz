@@ -22,8 +22,7 @@ class CarManager:
         return car
     
     def exist_car_by_slug(self, slug: str):
-        car = self.repo.get_by_slug(slug)     
-        return False if not car else True
+        return self.repo.exist_by_slug(slug)     
     
     def delete_car_by_slug(self, slug: str):
         self.find_car_by_slug(slug)
