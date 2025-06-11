@@ -1,9 +1,9 @@
 import pytest
 from unittest.mock import MagicMock
-from app.services.manager import CarManager
-from app.models.car import Car
+from app.car.application.manager import CarManager
+from app.car.domain.car import Car
 from unittest.mock import MagicMock
-from app.exceptions.car_exceptions import CarNotFoundError
+from app.car.domain.exceptions.exception import CarNotFoundError
 @pytest.fixture
 def mock_manager():
     mock_repo = MagicMock()

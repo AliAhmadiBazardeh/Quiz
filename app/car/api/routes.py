@@ -1,11 +1,11 @@
-# app/api/routes.py
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
-from app.presentation.schemas.schema import carIn, carOut
-from app.services.manager import CarManager
-from app.models.car import Car
-from app.repositories.db_connection import get_db_connection
-from app.repositories.repository import CarRepository
+from app.car.schema import carIn, carOut
+from app.car.application.manager import CarManager
+from app.car.domain.car import Car
+from app.car.infrastructure.db_connection import get_db_connection
+from app.car.domain.exceptions.exception import CarNotFoundError
+from app.car.infrastructure.repository import CarRepository
 
 router = APIRouter()
 repo = CarRepository(get_db_connection())
@@ -35,13 +35,13 @@ def list_cars():
 def get_car(slug: str):
     car = manager.find_car_by_slug(slug)
     if not car:
-        raise HTTPException(status_code=404, detail="Car not found.")
+        raise HTTPException(status_code=404, detail=str(CarNotFoundError(slug)))
     return carOut.model_validate(car)
 
 @router.delete("/cars/{slug}")
 def delete_car(slug: str):
     car = manager.find_car_by_slug(slug)
     if not car:
-        raise HTTPException(status_code=404, detail="Car not found.")
+        raise HTTPException(status_code=404, detail=str(CarNotFoundError(slug)))
     manager.delete_car_by_slug(slug)
     return {"detail": "Car deleted successfully."}

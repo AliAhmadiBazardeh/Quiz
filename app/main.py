@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.presentation.routers import routes
+from app.car.api import routes
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.handlers.exception_handlers import global_exception_handler

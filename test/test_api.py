@@ -1,6 +1,7 @@
 from fastapi.testclient import TestClient
 from app.main import app  
 import uuid
+from app.car.domain.exceptions.exception import CarNotFoundError
 
 client = TestClient(app)
 
@@ -30,12 +31,14 @@ def test_get_all_cars():
 
 
 def test_get_car_by_slug_not_found():
-    response = client.get("/cars/non-existent-slug-123")
+    non_exit_slug = 'non-existent-slug-123'
+    response = client.get(f"/cars/{non_exit_slug}")
     assert response.status_code == 404
-    assert response.json()["detail"] == "Car not found."
+    assert response.json()["detail"] == CarNotFoundError(non_exit_slug)
 
 
 def test_delete_car_not_found():
-    response = client.delete("/cars/fake-slug-to-delete")
+    fake_slug_to_delete = 'fake-slug-to-delete'
+    response = client.delete(f"/cars/{fake_slug_to_delete}")
     assert response.status_code == 404
     assert response.json()["detail"] == "Car not found."

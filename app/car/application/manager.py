@@ -1,8 +1,8 @@
-from app.models.car import Car
-from app.repositories.repository import CarRepository
+from app.car.domain.car import Car
+from app.car.infrastructure.repository import CarRepository
 from typing import Callable
 import app.utilities.helper as helper
-from app.presentation.exceptions import CarNotFoundError
+from app.car.domain.exceptions.exception import CarNotFoundError
 
 class CarManager:
     def __init__(self, repository: CarRepository, slug_generator: Callable = None):         

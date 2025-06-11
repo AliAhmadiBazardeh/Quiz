@@ -1,5 +1,5 @@
-from app.models.car import Car
-import app.repositories.queries as q
+from app.car.domain.car import Car
+import app.car.infrastructure.queries as q
 from typing import List, Optional
 
 class CarRepository:

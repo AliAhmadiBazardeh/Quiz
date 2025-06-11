@@ -1,5 +1,5 @@
-from app.services.manager import CarManager
-from app.models.car import Car
+from app.car.application.manager import CarManager
+from app.car.domain.car import Car
 
 class CarUI:
     def __init__(self, manager: CarManager):
