@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.api.routers import routes
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from app.handlers.exception_handlers import global_exception_handler
 
 app = FastAPI(title="Car API")
 
@@ -15,3 +16,5 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 app.include_router(routes.router)
+
+app.add_exception_handler(Exception, global_exception_handler)

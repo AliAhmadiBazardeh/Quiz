@@ -2,6 +2,7 @@ from app.models.car import Car
 from app.repositories.repository import CarRepository
 from typing import Callable
 import app.utilities.helper as helper
+from app.exceptions import CarNotFoundError
 
 class CarManager:
     def __init__(self, repository: CarRepository, slug_generator: Callable = None):         
@@ -15,12 +16,13 @@ class CarManager:
         return self.repo.get_all()
                                         
     def find_car_by_slug(self, slug: str):
-        return self.repo.get_by_slug(slug)
-
-    def delete_car_by_slug(self, slug: str):
-        car = self.find_car_by_slug(slug)
+        car = self.repo.get_by_slug(slug)
         if not car:
-            raise ValueError(f"No car found with slug {slug}")
+            raise CarNotFoundError(slug)
+        return car
+    
+    def delete_car_by_slug(self, slug: str):
+        self.find_car_by_slug(slug)     
         self.repo.delete_by_slug(slug)    
     
     def generate_unique_slug(self, car_name, car_model, car_color, max_attempts=10):
