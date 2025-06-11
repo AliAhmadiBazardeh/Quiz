@@ -1,10 +1,12 @@
 from app.models.car import Car
-import app.utilities.helper as helper
 from app.repositories.repository import CarRepository
+from typing import Callable
+import app.utilities.helper as helper
 
 class CarManager:
-    def __init__(self):         
-        self.repo = CarRepository()
+    def __init__(self, repository: CarRepository, slug_generator: Callable = None):         
+        self.repo = repository
+        self.slug_generator = slug_generator or self.default_slug_generator
 
     def add_car(self, car: Car): 
         self.repo.insert(car)
@@ -13,19 +15,23 @@ class CarManager:
         return self.repo.get_all()
                                         
     def find_car_by_slug(self, slug: str):
-        return self.repo.get_by_id(slug)
+        return self.repo.get_by_slug(slug)
 
-    def delete_car_by_slug(self, slug: int):
+    def delete_car_by_slug(self, slug: str):
         car = self.find_car_by_slug(slug)
         if not car:
-           return print(f"No car found with slug {slug}\n")            
-        self.repo.delete_by_id(slug)    
+            raise ValueError(f"No car found with slug {slug}")
+        self.repo.delete_by_slug(slug)    
     
     def generate_unique_slug(self, car_name, car_model, car_color, max_attempts=10):
         for _ in range(max_attempts):
-            slug = helper.simple_slugify(
-                f"{car_name} {car_model} {car_color} {helper.random_lower_alphanumeric()}"
-            )
+            slug = self.slug_generator(car_name, car_model, car_color)
             if not self.find_car_by_slug(slug):
                 return slug
         raise Exception("Failed to generate unique slug after multiple attempts.")
+
+    @staticmethod
+    def default_slug_generator(car_name, car_model, car_color):
+        return helper.simple_slugify(
+            f"{car_name} {car_model} {car_color} {helper.random_lower_alphanumeric()}"
+        )
