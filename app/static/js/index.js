@@ -31,8 +31,10 @@
                             <div class="col-12 text-center my-5">
                                 <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
                                 <h4>No Cars Found</h4>
-                                <p>Unable to find car data. Please try again later.</p>
-                                <button class="btn btn-primary" onclick="fetchCars()">Reload cars</button>
+                                <p>Unable to find car data. Register new car.</p>
+                                <a href="/register" class="btn btn-success" id="register">Register</a>
+                                <p>or</p>                                
+                                <button class="btn btn-primary" onclick="fetchCars()">Reload</button>                            
                             </div>
                         `);
                         }

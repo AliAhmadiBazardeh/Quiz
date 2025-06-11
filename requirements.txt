@@ -4,3 +4,4 @@ pydantic
 uvicorn
 Jinja2
 dotenv
+pytest-httpx
